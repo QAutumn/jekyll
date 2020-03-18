@@ -1,0 +1,1006 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="来呀~ 快活呀" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="经过几天的努力，终于搭好了自己的第一个个人博客，放鞭！❤ 期间踩了无数的坑，好在最后结果还算令人满意，唯一的遗憾是Jekyll似乎不支持在云服务器上使用HTTPS协议，所以目前浏览器的地址栏会提示不安全，逼死强迫症。但听说使用HTTPS协议会明显降低网页加载速度，所以有大佬即使配置成功后依然使用HTTP协议加载，em...那就先这样吧。">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WinServer+jekyll+腾讯云实现自己的个人主页">
+<meta property="og:url" content="http://0.0.0.0/tutorial/2020/03/18/Tencent-tutorial/">
+<meta property="og:site_name" content="来呀~ 快活呀">
+<meta property="og:description" content="经过几天的努力，终于搭好了自己的第一个个人博客，放鞭！❤ 期间踩了无数的坑，好在最后结果还算令人满意，唯一的遗憾是Jekyll似乎不支持在云服务器上使用HTTPS协议，所以目前浏览器的地址栏会提示不安全，逼死强迫症。但听说使用HTTPS协议会明显降低网页加载速度，所以有大佬即使配置成功后依然使用HTTP协议加载，em...那就先这样吧。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://autumnqq.cn/../../img/20200318/1.png">
+<meta property="og:image" content="http://autumnqq.cn/../../img/20200318/2.png">
+<meta property="og:image" content="http://autumnqq.cn/../../img/20200318/3.png">
+<meta property="og:image" content="http://autumnqq.cn/../../img/20200318/4.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WinServer+jekyll+腾讯云实现自己的个人主页">
+<meta name="twitter:description" content="经过几天的努力，终于搭好了自己的第一个个人博客，放鞭！❤ 期间踩了无数的坑，好在最后结果还算令人满意，唯一的遗憾是Jekyll似乎不支持在云服务器上使用HTTPS协议，所以目前浏览器的地址栏会提示不安全，逼死强迫症。但听说使用HTTPS协议会明显降低网页加载速度，所以有大佬即使配置成功后依然使用HTTP协议加载，em...那就先这样吧。">
+<meta name="twitter:image" content="http://autumnqq.cn/../../img/20200318/1.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://0.0.0.0/"/>
+
+
+
+
+
+  <title>WinServer+jekyll+腾讯云实现自己的个人主页 | 来呀~ 快活呀</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">来呀~ 快活呀</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0/tutorial/2020/03/18/Tencent-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="澈 水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=854883524,345945104&fm=11&gp=0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="来呀~ 快活呀">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            WinServer+jekyll+腾讯云实现自己的个人主页
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-18T00:00:00+08:00">
+                2020-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Tutorial" itemprop="url" rel="index">
+                    <span itemprop="name">Tutorial</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    经过几天的努力，终于搭好了自己的第一个个人博客，放鞭！❤ 期间踩了无数的坑，好在最后结果还算令人满意，唯一的遗憾是Jekyll似乎不支持在云服务器上使用HTTPS协议，所以目前浏览器的地址栏会提示不安全，逼死强迫症。但听说使用HTTPS协议会明显降低网页加载速度，所以有大佬即使配置成功后依然使用HTTP协议加载，em...那就先这样吧。
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <p>经过几天的努力，终于搭好了自己的第一个个人博客，放鞭！❤<br />
+  期间踩了无数的坑，好在最后结果还算令人满意，唯一的遗憾是Jekyll似乎不支持在云服务器上使用HTTPS协议，所以目前浏览器的地址栏会提示不安全，逼死强迫症。但听说使用HTTPS协议会明显降低网页加载速度，所以有大佬即使配置成功后依然使用HTTP协议加载，em…那就先这样吧。</p>
+
+<hr />
+
+<h2 id="开发环境">开发环境</h2>
+<blockquote>
+  <p>Windows Server 2016  数据中心版 64位</p>
+
+  <p>Jekyll 3.7.4</p>
+
+  <p>Gem 2.6.11.4</p>
+
+  <p>Bundle 2.1.4</p>
+</blockquote>
+
+<h2 id="腾讯云服务器的搭建">腾讯云服务器的搭建</h2>
+
+<h3 id="购买云服务器">购买云服务器</h3>
+
+<p>首先进入腾讯云首页，在下方找到「学生机」，价格为10元/月，未满25岁可以免学生认证，这里不得不cue一下垃圾阿里云，由于我本科期间在阿里云购买过学生机，导致我的研究生学号无法继续认证，不过也正因如此，才让我发现了腾讯云这个神仙服务器。</p>
+
+<p><img src="http://autumnqq.cn/../../img/20200318/1.png" alt="" /></p>
+
+<h3 id="设置安全组规则">设置安全组规则</h3>
+
+<p>购买服务器后，进入安全组，打开必要的端口，如HTTPS协议的默认端口为443，HTTP协议的默认端口为80，远程桌面连接的端口为3389。</p>
+
+<p><img src="http://autumnqq.cn/../../img/20200318/2.png" alt="" /></p>
+
+<h3 id="购买域名">购买域名</h3>
+
+<p>域名是用来映射到IP上，便于直接使用域名访问其绑定IP所在的服务器。虽然直接用IP和端口的形式也可以访问到我们购买的云服务器，但是一来IP不好记，二来因为我还同时开发微信小程序，微信不允许使用IP加端口形式的url。所以只能购买一个域名了。</p>
+
+<p>购买的过程也非常简单，只要挑选好喜欢的域名购买就可以了，我买了一年的.cn顶级域名，也只花了几十块，<a href="https://buy.cloud.tencent.com/domain">腾讯云域名购买链接</a>。</p>
+
+<p><img src="http://autumnqq.cn/../../img/20200318/3.png" alt="" /></p>
+
+<h3 id="域名解析">域名解析</h3>
+
+<p>买好了域名，那这个域名怎么用呢，不和IP配套使用的域名是没有任何意义的域名。这里我们需要将这个域名或者其子域名绑定在我们需要对外提供服务的服务器所对应的IP上，也就是我刚刚购买的云服务器的IP上。
+在腾讯云后台的云解析里，自动解析你的域名，其中，www字段代表将www.你的域名.cn这个网址解析到你的IP地址，@表示将二级域名xxx.com同样映射到你的IP地址，这样将来不管你是在服务器上输入「你的域名.cn」还是『www.你的域名.cn』都可以直接访问。</p>
+
+<p><img src="http://autumnqq.cn/../../img/20200318/4.png" alt="" /></p>
+
+<h3 id="域名备案">域名备案</h3>
+
+<p>普天之下莫非王土，互联网不是法外之地，试想，假设申请域名不需要备案，那岂不是人人都可以上线一个「por**ub.com」了？，所以，不管是什么域名，都需要向国家报备，接受监管。通过扫码进入腾讯云的小程序备案页面，开始走流程。</p>
+<ul>
+  <li>主要流程包括下面几个：
+    <ul>
+      <li>(1) 办理幕布拍照</li>
+      <li>(2) 验证备案信息</li>
+      <li>(3) 填写主体信息</li>
+      <li>(4) 填写网站信息</li>
+      <li>(5) 上传材料</li>
+      <li>(6) 确认备案信息，提交初审</li>
+      <li>(7) 通过审核，完成备案</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>注意！网站的名称不要乱填，之前手贱随便写了一个，结果后来腾讯云的小姐姐打来电话受不可以，又改城『个人爱好』，重新提交的申请，浪费了时间。</strong></p>
+
+<p>这个过程比较漫长，我等了大概四五天左右。</p>
+
+<h3 id="申请ssl证书">申请SSL证书</h3>
+
+<p>哦不，因为我还没搞懂Jekyll如何部署HTTPS协议，所以配置好证书后发现也没啥用，这步就先跳过了，哪位大神知道怎么弄的话可以教教我，感激不尽。</p>
+
+<hr />
+
+<h2 id="后端服务器的配置">后端服务器的配置</h2>
+
+<p>首先去<a href="https://rubyinstaller.org/downloads/">Ruby官网</a>下载『Ruby+Devkit 2.4.9-1 (x64)』</p>
+
+<p><strong>注意！！！踩坑警告！！！即使不安装这个版本，也一定要安装2.6.0版本一下，否则后面会报错！！！</strong></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>Could not find gem <span class="s1">'ruby  (&lt; 2.6)'</span>, which is required by gem <span class="s1">'nokogiri (&gt;= 1.8.2, &lt; 2.0)'</span>,
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>害的我又卸载重新装……</p>
+
+<p>检查 <code class="highlighter-rouge">Ruby 2.6.0</code> 或更低版本已经安装：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>ruby <span class="nt">--version</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>Install <code class="highlighter-rouge">Bundler</code>：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>gem install bundler
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>接下来就可以登录Jekyll官网选择一个喜欢的主题啦，我大概浏览了一下，高质量的主题还是很多哒，这里不得不安利一下NexT这个神仙主题，强推，第一眼看到就爱上了它，话不多说，直接<code class="highlighter-rouge">git clone</code>:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>git clone https://github.com/Simpleyyt/jekyll-theme-next.git
+<span class="nb">cd </span>jekyll-theme-next
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>安装Jekyll所需要的依赖：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>bundle install
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>在本地运行Jekyll：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll server
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>此时在『http://localhost:4000』上应该就能看到你的页面已经部署成功啦！！！</p>
+
+<p>那么如何允许Jekyll被公网访问呢？答案很简单，只需要将命令改为：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve <span class="nt">-H</span> 0.0.0.0 <span class="nt">-P</span> 80
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>即可，其中，0.0.0.0代表允许所有入站，80代表开放端口，可自行选择，由于HTTP协议的默认开放端口为80，所以我选择继续使用80，这样可以直接访问『www.autumnqq.cn』而不是『www.autumnqq.cn:81』（这里拿81端口举个例子）。</p>
+
+<p>让我们怀着激动地心情打开浏览器，输入『www.你的域名.cn』，是不是已经可以了呢？恭喜！你也拥有了自己的网站。</p>
+
+<blockquote>
+  <p>这是我第一次在网上写教程，能力一般，水平有限，纰漏在所难免，还请各位看官多多包涵。若有任何问题，欢迎随时与我保持联系。</p>
+</blockquote>
+
+<p>More Details：<a href="https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/">Setting up your GitHub Pages site locally with Jekyll</a></p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/tutorial/2020/03/18/mangoOfwx/" rel="next" title="Flask+IIS+微信小程序开发指南">
+                <i class="fa fa-chevron-left"></i> Flask+IIS+微信小程序开发指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/tutorial/2017/07/20/next-tutorial/" rel="prev" title="WinServer+jekyll+腾讯云实现自己的个人主页">
+                WinServer+jekyll+腾讯云实现自己的个人主页 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=854883524,345945104&fm=11&gp=0.jpg"
+               alt="澈 水" />
+          <p class="site-author-name" itemprop="name">澈 水</p>
+           
+              <p class="site-description motion-element" itemprop="description">相与枕藉乎舟中 不知东方之既白</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/5781209204/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/QAutumn" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#开发环境"> <span class="nav-number">1</span> <span class="nav-text">开发环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#腾讯云服务器的搭建"> <span class="nav-number">2</span> <span class="nav-text">腾讯云服务器的搭建</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#购买云服务器"> <span class="nav-number">2.1</span> <span class="nav-text">购买云服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#设置安全组规则"> <span class="nav-number">2.2</span> <span class="nav-text">设置安全组规则</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#购买域名"> <span class="nav-number">2.3</span> <span class="nav-text">购买域名</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#域名解析"> <span class="nav-number">2.4</span> <span class="nav-text">域名解析</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#域名备案"> <span class="nav-number">2.5</span> <span class="nav-text">域名备案</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#申请ssl证书"> <span class="nav-number">2.6</span> <span class="nav-text">申请SSL证书</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#后端服务器的配置"> <span class="nav-number">3</span> <span class="nav-text">后端服务器的配置</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">澈 水</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
